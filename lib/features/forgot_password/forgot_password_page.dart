@@ -1,4 +1,8 @@
+import 'dart:math';
+
+import 'package:book_easy/features/reset_password/password_reset_to_update.dart';
 import 'package:book_easy/features/reset_password/reset_password_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,12 +18,46 @@ class ForgotPasswordPage extends StatefulWidget {
   @override
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
-
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  String emailAddress ="";
+  late String resetCode; // Declare resetCode variable
+
+  void sendPasswordResetEmail() async {
+    // Generate a random 4-digit code
+    String resetCode = _generateResetCode();
+
+    try {
+      // Send the reset code to the user's email
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress);
+      // Show a confirmation message to the user
+      ScaffoldMessenger
+      .of(context)
+      .showSnackBar(SnackBar(content: Text("Password reset email sent. Check your inbox for the reset code")));
+      
+      // //Navigate to reset password page after sending the email
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) => ResetPasswordPage(resetCode),
+      //     ),
+      // );
+      Navigator.push(context, PasswordResetToUpdate.route());
+
+    } catch (e) {
+      // Handle errors here
+      print('Error sending password reset email: $e');
+    }
+  }
+  // Function to generate a random 4-digit code
+
+  String _generateResetCode(){
+    Random random = Random();
+    return (1000 + random.nextInt(9000)).toString(); // Generates a random number between 1000 and 9999
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( title: Center(child: Text("Forgot Password", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),)),),
+      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.only(left:16.0, right: 16, top:48),
@@ -49,9 +87,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                   hintStyle: TextStyle(color: Colors.black38),
                 ),
-                // onChanged: (newText){
-                //   fullName = newText;
-                // },
+                 onChanged: (newText){
+                   emailAddress = newText;
+                 },
               ),
 
               SizedBox(height: 56),
@@ -60,9 +98,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(context, ResetPasswordPage.route());
-                      },
+                      onPressed: sendPasswordResetEmail,
+                      //     () {
+                      //  // Navigator.push(context, ResetPasswordPage.route());
+                      //
+                      // },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -74,7 +114,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Send Code", style: TextStyle(color: Colors.white, fontSize: 18),),
+                            Text("Check your email", style: TextStyle(color: Colors.white, fontSize: 18),),
                             // SizedBox(width: 10),
                             // Icon(Icons.arrow_forward_ios, size: 20, color: Colors.white,),
 

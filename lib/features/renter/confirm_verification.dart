@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../home/home_page.dart';
 import '../login/login_page.dart';
 
 class ConfirmVerification extends StatefulWidget {
@@ -151,7 +152,7 @@ class _ConfirmVerification extends State<ConfirmVerification> {
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Image.asset("assets/home/badge.png"),
+                              Image.asset("assets/home/badge.png", color: Colors.green.shade700),
                               SizedBox(height: 8),
                               Text("Verification Successful", style: TextStyle(fontSize: 24),),
                               SizedBox(height: 8),
@@ -162,7 +163,7 @@ class _ConfirmVerification extends State<ConfirmVerification> {
                              TextButton(
                                  onPressed: () {
                                    //Navigator.pop(context);
-                                   Navigator.pushReplacement(context, LoginPage.route());
+                                   Navigator.pushReplacement(context, HomePage.route());
                                  },
                                  child: Text("OK"),
                              ),

@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         unselectedItemColor: Colors.grey,
-        selectedItemColor: Colors.blue.shade800,
+        selectedItemColor: Colors.blue.shade900,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         onTap: (value){
@@ -59,11 +59,11 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
-            label: "Favourite",
+            label: "Saved",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
-            label: "Message",
+            label: "Chat",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

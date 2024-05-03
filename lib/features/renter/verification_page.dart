@@ -1,3 +1,4 @@
+import 'package:book_easy/features/renter/repository/renter_repository.dart';
 import 'package:book_easy/features/renter/verification_page.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -5,16 +6,36 @@ import 'package:flutter/material.dart';
 
 import 'confirm_verification.dart';
 
-class VerificationPage extends StatelessWidget {
+class VerificationPage extends StatefulWidget {
   const VerificationPage({super.key});
 
   static route() => MaterialPageRoute(builder: (context){
     return VerificationPage();
   });
+
+  @override
+  State<VerificationPage> createState() => _VerificationPageState();
+}
+
+class _VerificationPageState extends State<VerificationPage> {
+  String phoneNumber = "";
+  RenterRepository renterRepository = RenterRepository(); // Instantiate the repository
+
+  void sendVerificationCode(String phoneNumber) async {
+    try {
+      await renterRepository.verifyUserWithPhoneNumber(phoneNumber: phoneNumber);
+    } catch (e) {
+      print('Error sending verification code: $e');
+    }
+  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar( title: Center(child: Text("Verification", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),)),),
+      appBar: AppBar( title: Padding(
+        padding: const EdgeInsets.only(left:20.0),
+        child: Text("Verification", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),),
+      ),),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.only(left:16.0, right: 16, top:48),
@@ -44,9 +65,9 @@ class VerificationPage extends StatelessWidget {
                   contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                   hintStyle: TextStyle(color: Colors.black38),
                 ),
-                // onChanged: (newText){
-                //   fullName = newText;
-                // },
+                onChanged: (newText){
+                  phoneNumber = newText;
+                },
               ),
 
               SizedBox(height: 56),
@@ -56,7 +77,12 @@ class VerificationPage extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
+                        // Call the function to send verification code
+                        sendVerificationCode(phoneNumber);
+                        // Navigate to the confirmation page
                         Navigator.push(context, ConfirmVerification.route());
+
+                        // Navigator.push(context, ConfirmVerification.route());
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(

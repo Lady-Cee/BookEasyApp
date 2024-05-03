@@ -20,7 +20,7 @@ class LocationPage extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                   image:DecorationImage(
-                    image: AssetImage('assets/home/map.png'),
+                    image: AssetImage('assets/home/locationmap.png'),
                     fit: BoxFit.cover,
                   )
               ),
@@ -107,12 +107,12 @@ class LocationPage extends StatelessWidget {
                     decoration: BoxDecoration(
                        color:Colors.white,
                       border: Border.all(
-                        color: Colors.blue,
+                        color: Colors.blue.shade900,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Center(child: Text("Skip", style: TextStyle(color: Colors.blue),)),
+                    child: Center(child: Text("Skip", style: TextStyle(color: Colors.blue.shade900,),)),
                   ),
                 )
             ),
@@ -128,9 +128,9 @@ class LocationPage extends StatelessWidget {
                     width:80,
                     height:50,
                     decoration: BoxDecoration(
-                      color:Colors.blue.shade600,
+                      color:Colors.blue.shade900,
                       border: Border.all(
-                        color: Colors.blue,
+                        color: Colors.blue.shade900,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(8),
